@@ -9,7 +9,8 @@
 		"lint": "npm run lint:js & npm run lint:style",
 		"lint:js": "eslint --ext .js src/",
 		"lint:style": "stylelint src/**/*.less",
-		"lint-staged": "lint-staged"
+		"lint-staged": "lint-staged",
+		"prettier":"prettier --write src/**/*.js"
 	},
 	"keywords": [],
 	"author": "",

@@ -1,0 +1,9 @@
+{
+	"window.zoomLevel": 0.5, // 窗口大小比例
+	"editor.tabSize": 4,
+	"editor.detectIndentation": false,
+	"emmet.triggerExpansionOnTab": true,
+	"update.channel": "none",
+	"editor.formatOnSave": true, // eslint保存格式化
+	"javascript.format.enable": false // 不启动JavaScript格式化
+}
