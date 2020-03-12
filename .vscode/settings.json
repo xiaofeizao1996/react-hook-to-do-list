@@ -1,9 +1,19 @@
 {
-	"window.zoomLevel": 0.5, // 窗口大小比例
-	"editor.tabSize": 4,
-	"editor.detectIndentation": false,
-	"emmet.triggerExpansionOnTab": true,
-	"update.channel": "none",
-	"editor.formatOnSave": true, // eslint保存格式化
-	"javascript.format.enable": false // 不启动JavaScript格式化
+    "window.zoomLevel": 0.5, // 窗口大小比例
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "emmet.triggerExpansionOnTab": true,
+    "update.channel": "none",
+    "editor.formatOnSave": true, // eslint保存格式化
+    "javascript.format.enable": false, // 不启动JavaScript格式化
+    // "eslint.autoFixOnSave": true, // has been deprecated, use editor.codeActionsOnSave instead
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
+    // "eslint.validate": [
+    //     "javascript",
+    //     "javascriptreact",
+    //     { "language": "typescript", "autoFix": true },
+    //     { "language": "typescriptreact", "autoFix": true }
+    // ]
 }
