@@ -40,18 +40,11 @@ const EditMessageModel: React.FC<EditMessageModelProps> = props => {
                 wrapperCol={formItemLayout.wrapperCol}
             >
                 <Form.Item label="创建时间" name="time">
-                    <Input
-                        style={{
-                            width: '100%',
-                        }}
-                        disabled
-                    />
+                    <Input style={{ width: '100%' }} disabled />
                 </Form.Item>
                 <Form.Item label="信息" name="message">
                     <TextArea
-                        style={{
-                            width: '100%',
-                        }}
+                        style={{ width: '100%' }}
                         autoSize={{
                             minRows: 4,
                             maxRows: 4,

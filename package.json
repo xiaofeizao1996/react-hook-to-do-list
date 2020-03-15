@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "webpack-dev-server --config config/webpack-dev.config.js",
+        "start": "cross-env IS_PROXY=true webpack-dev-server --config config/webpack-dev.config.js",
         "build": "webpack --config config/webpack-prod.config.js",
         "lint": "npm run lint:ts & npm run lint:style",
         "lint:fix": "eslint --fix --ext .ts,.tsx src/",
@@ -32,6 +32,7 @@
         "babel-loader": "^8.0.6",
         "babel-plugin-import": "^1.13.0",
         "commitlint": "^8.3.5",
+        "cross-env": "^7.0.2",
         "css-loader": "^3.4.2",
         "eslint": "^6.8.0",
         "eslint-config-airbnb-typescript": "^7.0.0",

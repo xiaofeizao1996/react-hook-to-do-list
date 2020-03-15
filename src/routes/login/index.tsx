@@ -4,6 +4,10 @@ import logo from '../../assets/logo.jpg'
 import formItemLayout from '../../utils/globalFormStyle'
 import './index.less'
 
+import request from '../../utils/request'
+
+request('/api/captcha')
+
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {

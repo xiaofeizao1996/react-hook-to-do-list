@@ -8,5 +8,13 @@ module.exports = webpackMerge(webpackBaseConfig, {
         port: 7200,
         hot: true,
         historyApiFallback: true,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8001',
+                pathRewrite: {
+                    '^/api': '',
+                },
+            },
+        },
     },
 })

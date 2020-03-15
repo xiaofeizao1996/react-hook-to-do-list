@@ -43,12 +43,7 @@ export default function Todo() {
                         onChange={handleMessageChange}
                         onPressEnter={handleMessageSubmit}
                     />
-                    <Button
-                        style={{
-                            marginLeft: 20,
-                        }}
-                        onClick={handleMessageSubmit}
-                    >
+                    <Button style={{ marginLeft: 20 }} onClick={handleMessageSubmit}>
                         提交
                     </Button>
                 </div>
