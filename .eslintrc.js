@@ -19,7 +19,7 @@ module.exports = {
         'react/prop-types': [0],
         'arrow-parens': [2, 'as-needed'],
         'object-curly-newline': [
-            'error',
+            'off',
             {
                 ObjectExpression: { multiline: true },
                 ObjectPattern: { multiline: true },
@@ -27,5 +27,6 @@ module.exports = {
                 ExportDeclaration: { multiline: true, minProperties: 3 },
             },
         ],
+        'implicit-arrow-linebreak': ['off'],
     },
 }

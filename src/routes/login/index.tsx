@@ -1,21 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input, Row, Col, Button } from 'antd'
+import { RouteChildrenProps } from 'react-router'
 import logo from '../../assets/logo.jpg'
 import formItemLayout from '../../utils/globalFormStyle'
 import './index.less'
+import { getCaptcha, login } from '../../services/login'
 
-import request from '../../utils/request'
+interface LoginProps {
+    history: RouteChildrenProps['history']
+}
 
-request('/api/captcha')
+const Login: React.FC<LoginProps> = props => {
+    const [captchaUrl, setCaptchaUrl] = useState<string | null>(null)
+    const [hashKey, setHashKey] = useState<string | null>(null)
+    useEffect(() => {
+        getCaptcha().then(({ data }) => {
+            setCaptchaUrl(data.captchaUrl)
+            setHashKey(data.hashKey)
+        })
+    }, [])
 
-interface LoginProps {}
-
-const Login: React.FC<LoginProps> = () => {
     const [form] = Form.useForm()
     const handleLogin = () => {
-        // eslint-disable-next-line no-console
-        form.validateFields().then(data => console.log(data))
+        form.validateFields().then(values => {
+            const { username, password, captcha } = values
+            login({ username, password, captcha, hashKey: hashKey || '' }).then(res => {
+                const {
+                    data: { token },
+                } = res
+                if (token) {
+                    localStorage.setItem('token', token)
+                    props.history.push('/todo')
+                }
+            })
+        })
     }
+    // eslint-disable-next-line no-nested-ternary
+    const imgSrc = captchaUrl ? (IS_PROXY ? `/api${captchaUrl}` : `${captchaUrl}`) : ''
+
     return (
         <div className="login-container">
             <div className="login-content">
@@ -67,7 +89,9 @@ const Login: React.FC<LoginProps> = () => {
                                 <Input />
                             </Col>
                             <Col span={6}>
-                                <img src="" alt="captcha" />
+                                <div style={{ paddingLeft: 20 }}>
+                                    <img height={32} src={imgSrc} alt="captcha" />
+                                </div>
                             </Col>
                         </Row>
                     </Form.Item>

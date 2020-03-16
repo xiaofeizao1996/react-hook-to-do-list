@@ -15,8 +15,8 @@ interface NewOptions extends Option {
     body: string
 }
 
-interface Request {
-    <T>(url: string, options: RequestOption<T>): Promise<any>
+export interface Request {
+    <T>(url: string, options?: RequestOption<T>): Promise<any>
 }
 
 interface FetchError extends Error {
