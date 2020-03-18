@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Row, Col, Button } from 'antd'
+import { Form, Input, Row, Col, Button, Alert } from 'antd'
 import { Link } from 'react-router-dom'
 import { RouteChildrenProps } from 'react-router'
 import formItemLayout from '../../utils/globalFormStyle'
@@ -12,28 +12,40 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = props => {
     const [captchaUrl, setCaptchaUrl] = useState<string | null>(null)
-    const [hashKey, setHashKey] = useState<string | null>(null)
+    const [hashKey, setHashKey] = useState<string>('')
+    const [errorMessage, setAlterMessage] = useState<string | null>(null)
     const [form] = Form.useForm()
 
-    useEffect(() => {
+    const changeCaptcha = () =>
         getCaptcha().then(({ data }) => {
             setCaptchaUrl(data.captchaUrl)
             setHashKey(data.hashKey)
         })
+
+    useEffect(() => {
+        changeCaptcha()
     }, [])
 
     const handleLogin = () => {
         form.validateFields().then(values => {
             const { username, password, captcha } = values
-            login({ username, password, captcha, hashKey: hashKey || '' }).then(res => {
-                const {
-                    data: { token },
-                } = res
-                if (token) {
-                    localStorage.setItem('token', token)
-                    props.history.push('/todo')
-                }
-            })
+            login({ username, password, captcha, hashKey })
+                .then(res => {
+                    const {
+                        data: { token },
+                    } = res
+                    if (token) {
+                        localStorage.setItem('token', token)
+                        props.history.push('/todo')
+                    }
+                })
+                .catch(err => {
+                    const {
+                        data: { error },
+                    } = err
+                    setAlterMessage(error)
+                    changeCaptcha()
+                })
         })
     }
     // eslint-disable-next-line no-nested-ternary
@@ -41,6 +53,9 @@ const Login: React.FC<LoginProps> = props => {
 
     return (
         <UserLayout>
+            {errorMessage ? (
+                <Alert message={errorMessage} type="error" style={{ marginBottom: 10 }} />
+            ) : null}
             <Form
                 form={form}
                 labelAlign="right"
@@ -84,7 +99,7 @@ const Login: React.FC<LoginProps> = props => {
                 >
                     <Row>
                         <Col span={18}>
-                            <Input />
+                            <Input maxLength={4} />
                         </Col>
                         <Col span={6}>
                             <div style={{ paddingLeft: 20 }}>

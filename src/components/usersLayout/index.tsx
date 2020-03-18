@@ -3,7 +3,7 @@ import logo from '../../assets/logo.jpg'
 import './index.less'
 
 interface UserLayoutProps {
-    children: React.ReactElement | Array<React.ReactElement>
+    children: (React.ReactElement | null)[]
 }
 
 const UserLayout: React.FC<UserLayoutProps> = props => {

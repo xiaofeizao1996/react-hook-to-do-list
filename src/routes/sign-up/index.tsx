@@ -1,15 +1,55 @@
-import React from 'react'
-import { Form, Input, Button } from 'antd'
+import React, { useState } from 'react'
+import { Form, Input, Button, Alert, Modal } from 'antd'
+import { RouteChildrenProps } from 'react-router'
 import UserLayout from '../../components/usersLayout'
 import formItemLayout from '../../utils/globalFormStyle'
+import { signUp } from '../../services/login'
 
-function Register() {
+const { confirm } = Modal
+
+interface RegisterProps {
+    history: RouteChildrenProps['history']
+}
+
+const Register: React.FC<RegisterProps> = props => {
+    const [errorMessage, setErrorMessage] = useState<string>('')
     const [form] = Form.useForm()
     const handleSignUp = () => {
-        console.log('sign up')
+        form.validateFields().then(values => {
+            const { username, password, passwordAgain } = values
+            if (password !== passwordAgain) {
+                setErrorMessage('两次密码不一致，请重新输入。')
+                return
+            }
+            signUp({ username, password, passwordAgain })
+                .then(res => {
+                    const { status } = res
+                    if (status === 204) {
+                        const { history } = props
+                        confirm({
+                            content: '注册成功！',
+                            okCancel: false,
+                            centered: true,
+                            onOk: () => {
+                                history.push('/todo')
+                                Modal.destroyAll()
+                            },
+                        })
+                    }
+                })
+                .catch(err => {
+                    const {
+                        data: { error },
+                    } = err
+                    setErrorMessage(error)
+                })
+        })
     }
     return (
         <UserLayout>
+            {errorMessage ? (
+                <Alert message={errorMessage} type="error" style={{ marginBottom: 10 }} />
+            ) : null}
             <Form
                 form={form}
                 labelAlign="right"
