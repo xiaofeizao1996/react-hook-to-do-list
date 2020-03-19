@@ -2,6 +2,7 @@ module.exports = {
     extends: ['airbnb-typescript'],
     parserOptions: {
         project: './tsconfig.json',
+        tsconfigRootDir: './',
     },
     rules: {
         '@typescript-eslint/semi': ['off'],
@@ -28,5 +29,11 @@ module.exports = {
             },
         ],
         'implicit-arrow-linebreak': ['off'],
+        'import/prefer-default-export': ['off'],
+    },
+    settings: {
+        'import/resolver': {
+            typescript: {},
+        },
     },
 }

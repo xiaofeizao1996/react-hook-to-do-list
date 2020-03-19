@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, Form, Input } from 'antd'
-import formItemLayout from '../../utils/globalFormStyle'
+import formItemLayout from 'utils/globalFormStyle'
 import { todoItem } from './type'
 
 const { TextArea } = Input

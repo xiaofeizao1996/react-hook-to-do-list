@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, Alert, Modal } from 'antd'
 import { RouteChildrenProps } from 'react-router'
-import UserLayout from '../../components/usersLayout'
-import formItemLayout from '../../utils/globalFormStyle'
-import { signUp } from '../../services/login'
+import UserLayout from 'components/usersLayout'
+import formItemLayout from 'utils/globalFormStyle'
+import { signUp } from 'services/login'
 
 const { confirm } = Modal
 

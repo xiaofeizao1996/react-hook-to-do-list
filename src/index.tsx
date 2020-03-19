@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import 'normalize.css'
+import showConstants from 'services/config'
 import App from './App'
-import showConstants from './services/config'
 
 showConstants()
 

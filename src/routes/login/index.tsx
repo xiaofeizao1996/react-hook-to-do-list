@@ -1,61 +1,48 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, Row, Col, Button, Alert } from 'antd'
 import { Link } from 'react-router-dom'
-import { RouteChildrenProps } from 'react-router'
-import formItemLayout from '../../utils/globalFormStyle'
-import { getCaptcha, login } from '../../services/login'
-import UserLayout from '../../components/usersLayout'
+import formItemLayout from 'utils/globalFormStyle'
+import UserLayout from 'components/usersLayout'
+import { connect } from 'react-redux'
+import { LOGIN, GET_CAPTCHA } from 'store/login'
 
 interface LoginProps {
-    history: RouteChildrenProps['history']
+    dispatch: any
+    captchaUrl: string
+    hashKey: string
+    error: string
 }
 
 const Login: React.FC<LoginProps> = props => {
-    const [captchaUrl, setCaptchaUrl] = useState<string | null>(null)
-    const [hashKey, setHashKey] = useState<string>('')
-    const [errorMessage, setAlterMessage] = useState<string | null>(null)
+    const { dispatch, captchaUrl, hashKey, error } = props
     const [form] = Form.useForm()
-
-    const changeCaptcha = () =>
-        getCaptcha().then(({ data }) => {
-            setCaptchaUrl(data.captchaUrl)
-            setHashKey(data.hashKey)
+    const getCaptcha = () =>
+        dispatch({
+            type: GET_CAPTCHA,
         })
 
     useEffect(() => {
-        changeCaptcha()
+        getCaptcha()
     }, [])
 
     const handleLogin = () => {
         form.validateFields().then(values => {
             const { username, password, captcha } = values
-            login({ username, password, captcha, hashKey })
-                .then(res => {
-                    const {
-                        data: { token },
-                    } = res
-                    if (token) {
-                        localStorage.setItem('token', token)
-                        props.history.push('/todo')
-                    }
-                })
-                .catch(err => {
-                    const {
-                        data: { error },
-                    } = err
-                    setAlterMessage(error)
-                    changeCaptcha()
-                })
+            dispatch({
+                type: LOGIN,
+                payload: {
+                    username,
+                    password,
+                    captcha,
+                    hashKey,
+                },
+            })
         })
     }
-    // eslint-disable-next-line no-nested-ternary
-    const imgSrc = captchaUrl ? (IS_PROXY ? `/api${captchaUrl}` : `${captchaUrl}`) : ''
 
     return (
         <UserLayout>
-            {errorMessage ? (
-                <Alert message={errorMessage} type="error" style={{ marginBottom: 10 }} />
-            ) : null}
+            {error ? <Alert message={error} type="error" style={{ marginBottom: 10 }} /> : null}
             <Form
                 form={form}
                 labelAlign="right"
@@ -97,14 +84,12 @@ const Login: React.FC<LoginProps> = props => {
                         },
                     ]}
                 >
-                    <Row>
+                    <Row gutter={[20, 0]}>
                         <Col span={18}>
                             <Input maxLength={4} />
                         </Col>
-                        <Col span={6}>
-                            <div style={{ paddingLeft: 20 }}>
-                                <img height={32} src={imgSrc} alt="captcha" />
-                            </div>
+                        <Col span={6} onClick={getCaptcha}>
+                            <img height={32} src={captchaUrl} alt="captcha" />
                         </Col>
                     </Row>
                 </Form.Item>
@@ -125,4 +110,8 @@ const Login: React.FC<LoginProps> = props => {
     )
 }
 
-export default Login
+export default connect(({ login }: any) => ({
+    hashKey: login.hashKey,
+    captchaUrl: login.captchaUrl,
+    error: login.error,
+}))(Login)
