@@ -5,13 +5,7 @@ import formItemLayout from 'utils/globalFormStyle'
 import UserLayout from 'components/usersLayout'
 import { connect } from 'react-redux'
 import { LOGIN, GET_CAPTCHA } from 'store/login'
-
-interface LoginProps {
-    dispatch: any
-    captchaUrl: string
-    hashKey: string
-    error: string
-}
+import { AppState, AppDispatch } from 'store/index'
 
 const Login: React.FC<LoginProps> = props => {
     const { dispatch, captchaUrl, hashKey, error } = props
@@ -89,7 +83,7 @@ const Login: React.FC<LoginProps> = props => {
                             <Input maxLength={4} />
                         </Col>
                         <Col span={6} onClick={getCaptcha}>
-                            <img height={32} src={captchaUrl} alt="captcha" />
+                            <img height={32} src={captchaUrl || ''} alt="captcha" />
                         </Col>
                     </Row>
                 </Form.Item>
@@ -110,8 +104,14 @@ const Login: React.FC<LoginProps> = props => {
     )
 }
 
-export default connect(({ login }: any) => ({
+const mapStateToProps = ({ login }: AppState) => ({
     hashKey: login.hashKey,
     captchaUrl: login.captchaUrl,
     error: login.error,
-}))(Login)
+})
+
+interface LoginProps extends ReturnType<typeof mapStateToProps> {
+    dispatch: AppDispatch
+}
+
+export default connect(mapStateToProps)(Login)

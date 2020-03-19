@@ -7,14 +7,17 @@ import rootSaga from './saga'
 
 const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware()
-const reducer = combineReducers({
+const rootReducer = combineReducers({
     router: connectRouter(history),
     login: LoginReducer,
 })
 const store = createStore(
-    reducer,
+    rootReducer,
     compose(applyMiddleware(sagaMiddleware, routerMiddleware(history))),
 )
 sagaMiddleware.run(rootSaga)
-export { history }
+
+type AppState = ReturnType<typeof rootReducer>
+type AppDispatch = typeof store.dispatch
+export { history, AppState, AppDispatch }
 export default store
