@@ -10,7 +10,6 @@ const uuid = () => new Date().getTime()
 export default function Todo() {
     const [message, changeMessage] = useState<string | undefined>(undefined)
     const [messageList, addMessage] = useState<Array<todoItem> | null>(null)
-
     const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const currentMessage = event.target.value
         changeMessage(currentMessage)
@@ -33,22 +32,24 @@ export default function Todo() {
     }
 
     return (
-        <div className="container">
-            <header className="header">Todo List</header>
-            <div className="content">
-                <div className="input">
-                    <Input
-                        placeholder="请输入待办事项"
-                        value={message}
-                        onChange={handleMessageChange}
-                        onPressEnter={handleMessageSubmit}
-                    />
-                    <Button style={{ marginLeft: 20 }} onClick={handleMessageSubmit}>
-                        提交
-                    </Button>
+        <>
+            <div className="container">
+                <header className="header">Todo List</header>
+                <div className="content">
+                    <div className="input">
+                        <Input
+                            placeholder="请输入待办事项"
+                            value={message}
+                            onChange={handleMessageChange}
+                            onPressEnter={handleMessageSubmit}
+                        />
+                        <Button style={{ marginLeft: 20 }} onClick={handleMessageSubmit}>
+                            提交
+                        </Button>
+                    </div>
+                    <TodoItem data={messageList} addMessage={addMessage} />
                 </div>
-                <TodoItem data={messageList} addMessage={addMessage} />
             </div>
-        </div>
+        </>
     )
 }

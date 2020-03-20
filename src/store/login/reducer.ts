@@ -1,31 +1,38 @@
-import { Action } from 'redux'
-import { LOGIN, LOGIN_SAVE, LOGIN_SUCCESS, GET_CAPTCHA } from './action'
+import { Action, Reducer } from 'redux'
+import { LOGIN, LOGIN_SAVE, GET_CAPTCHA } from './action'
 
 interface LoginAction extends Action {
-    type: 'LOGIN' | 'LOGIN_SAVE' | 'LOGIN_SUCCESS' | 'GET_CAPTCHA'
+    type: 'LOGIN' | 'LOGIN_SAVE' | 'GET_CAPTCHA'
     payload?: any
 }
 
 export interface LoginState {
     hashKey: string | null
+    loading: boolean
     captchaUrl: string | null
     error: string | null
 }
 
 const initState: LoginState = {
     hashKey: null,
+    loading: false,
     captchaUrl: null,
     error: null,
 }
 
-export const LoginReducer = (state = initState, action: LoginAction): LoginState => {
+export const LoginReducer: Reducer<LoginState> = (state = initState, action: LoginAction) => {
     const { type, payload } = action
     switch (type) {
-        case LOGIN_SUCCESS:
-            return { ...state, ...payload }
         case LOGIN_SAVE:
-            return { ...state, ...payload }
+            return {
+                ...state,
+                ...payload,
+            }
         case LOGIN:
+            return {
+                ...state,
+                loading: true,
+            }
         case GET_CAPTCHA:
         default:
             return {

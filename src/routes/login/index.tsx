@@ -8,7 +8,7 @@ import { LOGIN, GET_CAPTCHA } from 'store/login'
 import { AppState, AppDispatch } from 'store/index'
 
 const Login: React.FC<LoginProps> = props => {
-    const { dispatch, captchaUrl, hashKey, error } = props
+    const { dispatch, captchaUrl, hashKey, loading, error } = props
     const [form] = Form.useForm()
     const getCaptcha = () =>
         dispatch({
@@ -78,7 +78,7 @@ const Login: React.FC<LoginProps> = props => {
                         },
                     ]}
                 >
-                    <Row gutter={[20, 0]}>
+                    <Row gutter={[30, 0]}>
                         <Col span={18}>
                             <Input maxLength={4} />
                         </Col>
@@ -90,12 +90,12 @@ const Login: React.FC<LoginProps> = props => {
             </Form>
             <Row gutter={[25, 0]}>
                 <Col span={12}>
-                    <Button type="primary" block onClick={handleLogin}>
+                    <Button type="primary" block onClick={handleLogin} loading={loading}>
                         登录
                     </Button>
                 </Col>
                 <Col span={12}>
-                    <Button block>
+                    <Button block loading={loading}>
                         <Link to="/sign-up">注册</Link>
                     </Button>
                 </Col>
@@ -108,6 +108,7 @@ const mapStateToProps = ({ login }: AppState) => ({
     hashKey: login.hashKey,
     captchaUrl: login.captchaUrl,
     error: login.error,
+    loading: login.loading,
 })
 
 interface LoginProps extends ReturnType<typeof mapStateToProps> {

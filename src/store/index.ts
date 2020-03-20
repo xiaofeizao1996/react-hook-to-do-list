@@ -2,6 +2,7 @@ import { createStore, compose, applyMiddleware, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
+import logger from 'redux-logger'
 import { LoginReducer } from './login'
 import rootSaga from './saga'
 
@@ -13,7 +14,7 @@ const rootReducer = combineReducers({
 })
 const store = createStore(
     rootReducer,
-    compose(applyMiddleware(sagaMiddleware, routerMiddleware(history))),
+    compose(applyMiddleware(sagaMiddleware, routerMiddleware(history), logger)),
 )
 sagaMiddleware.run(rootSaga)
 

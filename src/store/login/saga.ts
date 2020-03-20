@@ -11,11 +11,12 @@ function* getCaptchaRequeset() {
             type: LOGIN_SAVE,
             payload: {
                 ...data,
+                loading: false,
                 captchaUrl: `${BACKEND_URL}${data.captchaUrl}`,
             },
         })
     } catch (err) {
-        yield put(push('/404'))
+        // yield put(push('/404'))
     }
 }
 
@@ -33,12 +34,13 @@ function* loginRequeset(action: any) {
                 token,
             },
         })
-        yield put(push('/'))
+        yield put(push('/todo'))
     } catch (err) {
         const { data } = err
         yield put({
             type: LOGIN_SAVE,
             payload: {
+                loading: false,
                 error: data.error || data,
             },
         })
