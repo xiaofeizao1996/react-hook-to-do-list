@@ -32,24 +32,22 @@ export default function Todo() {
     }
 
     return (
-        <>
-            <div className="container">
-                <header className="header">Todo List</header>
-                <div className="content">
-                    <div className="input">
-                        <Input
-                            placeholder="请输入待办事项"
-                            value={message}
-                            onChange={handleMessageChange}
-                            onPressEnter={handleMessageSubmit}
+        <div className="container">
+            <header className="header">Todo List</header>
+            <div className="content">
+                <div className="input">
+                    <Input
+                        placeholder="请输入待办事项"
+                        value={message}
+                        onChange={handleMessageChange}
+                        onPressEnter={handleMessageSubmit}
                         />
-                        <Button style={{ marginLeft: 20 }} onClick={handleMessageSubmit}>
-                            提交
-                        </Button>
-                    </div>
-                    <TodoItem data={messageList} addMessage={addMessage} />
+                    <Button style={{ marginLeft: 20 }} onClick={handleMessageSubmit}>
+                        提交
+                    </Button>
                 </div>
+                <TodoItem data={messageList} addMessage={addMessage} />
             </div>
-        </>
+        </div>
     )
 }
