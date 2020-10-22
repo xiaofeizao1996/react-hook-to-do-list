@@ -1,5 +1,5 @@
 export interface todoItem {
-    id: number
-    message: string
-    time: string
+  id: number
+  message: string
+  time: string
 }

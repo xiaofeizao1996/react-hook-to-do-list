@@ -1,6 +1,6 @@
 {
     "window.zoomLevel": 0.5, // 窗口大小比例
-    "editor.tabSize": 4,
+    "editor.tabSize": 2,
     "editor.detectIndentation": false,
     "emmet.triggerExpansionOnTab": true,
     "update.channel": "none",

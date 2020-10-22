@@ -62,7 +62,7 @@ const checkStatus = (res: any) => {
     return block
 }
 
-const request: Request = (url, options) => {
+const request: Request = async (url, options) => {
     const { method = 'GET', body, ignoreToken = false } = options || {}
     const newOptions: NewOptions = {
         method,

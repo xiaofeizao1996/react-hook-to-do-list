@@ -9,12 +9,12 @@ import rootSaga from './saga'
 const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware()
 const rootReducer = combineReducers({
-    router: connectRouter(history),
-    login: LoginReducer,
+  router: connectRouter(history),
+  login: LoginReducer,
 })
 const store = createStore(
-    rootReducer,
-    compose(applyMiddleware(sagaMiddleware, routerMiddleware(history), logger)),
+  rootReducer,
+  compose(applyMiddleware(sagaMiddleware, routerMiddleware(history), logger)),
 )
 sagaMiddleware.run(rootSaga)
 
